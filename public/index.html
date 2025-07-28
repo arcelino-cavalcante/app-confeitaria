@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolos Da Célia</title>
+
+    <!-- Google Fonts: Poppins e Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Cabeçalho (Visível em telas maiores) -->
+    <header class="main-header">
+        <h1 id="site-name">Bolos Da Célia</h1>
+        <a href="admin.html" class="profile-link">
+            <i data-feather="user"></i>
+        </a>
+    </header>
+
+    <!-- Cabeçalho Fixo (Visível em telas menores) -->
+    <header class="mobile-header">
+        <h1 id="site-name-mobile">Bolos Da Célia</h1>
+        <a href="admin.html" style="position: absolute; right: 20px;">
+            <i data-feather="user"></i>
+        </a>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+
+        <!-- Seção do Cardápio (Início) -->
+        <section id="home-section" class="page-section active" role="region" aria-labelledby="home-title">
+            <!-- Cardápio agora é a tela inicial -->
+            <h2 id="home-title">Nosso Cardápio</h2>
+            <div id="category-filters" class="category-filters" role="tablist" aria-label="Categorias de produtos">
+                <!-- Filtros de categoria serão gerados pelo JS -->
+            </div>
+            <div id="product-list" class="product-list">
+                <!-- Produtos serão inseridos aqui pelo JavaScript -->
+            </div>
+        </section>
+
+        <!-- Seção Monte seu Bolo -->
+        <section id="build-cake-section" class="page-section" role="region" aria-labelledby="build-cake-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="build-cake-title">Monte seu Bolo</h2>
+            </div>
+            <p id="build-cake-empty-message" class="empty-data-message" style="display:none"></p>
+            <form id="build-cake-form" class="build-cake-form">
+                <!-- Passo 1: Tamanho -->
+                <div class="form-step">
+                    <label for="cake-size">1. Escolha o Tamanho (peso)</label>
+                    <select id="cake-size" name="size"></select>
+                </div>
+
+                <!-- Passo 2: Massa -->
+                <div class="form-step">
+                    <label for="cake-dough">2. Escolha a Massa</label>
+                    <select id="cake-dough" name="dough"></select>
+                </div>
+
+                <!-- Passo 3: Número de Recheios -->
+                <div class="form-step">
+                    <label for="cake-num-fillings">3. Escolha o número de recheios</label>
+                    <select id="cake-num-fillings" name="num_fillings">
+                        <option value="0">Sem recheio</option>
+                        <option value="1">1 Recheio</option>
+                        <option value="2">2 Recheios</option>
+                        <option value="3">3 Recheios</option>
+                    </select>
+                </div>
+
+                <!-- Container dinâmico para os recheios -->
+                <div id="cake-fillings-container"></div>
+
+                <!-- Passo 4: Cobertura -->
+                <div class="form-step">
+                    <label for="cake-topping">4. Escolha a Cobertura</label>
+                    <select id="cake-topping" name="topping"></select>
+                </div>
+
+                <!-- Display de Preço -->
+                <div class="price-display">
+                    <h3>Valor do Bolo</h3>
+                    <p id="custom-cake-price" aria-live="polite">R$ 0,00</p>
+                </div>
+
+                <button type="button" id="add-custom-cake-to-cart-btn" class="btn-primary btn-block"
+                    style="margin-top: 20px;" disabled>Adicionar Bolo ao Carrinho</button>
+            </form>
+        </section>
+
+        <!-- Seção Catálogo Especial -->
+        <section id="special-catalog-section" class="page-section" role="region"
+            aria-labelledby="special-catalog-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="special-catalog-title">Catálogo Especial</h2>
+            </div>
+            <div id="special-catalog-list" class="product-list">
+                <!-- Bolos especiais serão inseridos aqui -->
+            </div>
+        </section>
+
+        <!-- Seção do Carrinho (Meu Pedido) -->
+        <section id="cart-section" class="page-section" role="region" aria-labelledby="cart-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="cart-title">Seu Carrinho</h2>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <!-- Itens do carrinho serão inseridos aqui -->
+            </div>
+            <div class="cart-summary">
+                <p>Subtotal: <span id="cart-subtotal" aria-live="polite">R$ 0,00</span></p>
+                <button id="checkout-from-cart-btn" class="btn-primary btn-block">Finalizar Pedido</button>
+            </div>
+        </section>
+
+        <!-- Seção de Finalização do Pedido -->
+        <section id="checkout-section" class="page-section" role="region" aria-labelledby="checkout-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="cart-section" aria-label="Voltar para o carrinho">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="checkout-title">Finalizar Pedido</h2>
+            </div>
+            <form id="checkout-form" class="checkout-form" novalidate>
+                <div class="form-group">
+                    <label for="customer-name">Seu Nome</label>
+                    <input type="text" id="customer-name" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Entrega</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="delivery-method" value="Entrega" checked> Entrega
+                        </label>
+                        <label>
+                            <input type="radio" name="delivery-method" value="Retirada"> Retirada no Local
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="address-group">
+                    <label for="customer-address">Endereço de Entrega</label>
+                    <textarea id="customer-address" rows="3" required
+                        placeholder="Ex: Rua das Flores, 123, Bairro, Cidade"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pagamento</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="payment-method" value="PIX" checked> PIX
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="Cartão"> Cartão
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="Dinheiro"> Dinheiro
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">Enviar Pedido via WhatsApp</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Botão Flutuante do Carrinho (Apenas Desktop) -->
+    <button id="floating-cart-btn" aria-label="Abrir carrinho de compras">
+        <i data-feather="shopping-cart"></i>
+        <span class="cart-count-badge">0</span>
+    </button>
+
+    <!-- Menu de Navegação Fixo (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="#home-section" class="nav-link active" data-target="home-section" aria-label="Ver Cardápio">
+            <i data-feather="book-open"></i>
+            <span>Cardápio</span>
+        </a>
+        <a href="#build-cake-section" class="nav-link" data-target="build-cake-section" aria-label="Monte seu Bolo">
+            <i data-feather="cake"></i>
+            <span>Monte o Bolo</span>
+        </a>
+        <a href="#special-catalog-section" class="nav-link" data-target="special-catalog-section"
+            aria-label="Ver Catálogo Especial">
+            <i data-feather="gift"></i>
+            <span>Catálogo</span>
+        </a>
+        <a href="#cart-section" data-target="cart-section" class="nav-link" aria-label="Ver meu pedido">
+            <i data-feather="shopping-cart"></i>
+            <span class="cart-count-badge">0</span>
+            <span>Meu Pedido</span>
+        </a>
+    </nav>
+
+    <!-- Container para Notificações (Toast) -->
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
