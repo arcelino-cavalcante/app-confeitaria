@@ -155,11 +155,19 @@
             text-align: center;
             display: none;
             /* Escondido por padrão */
+            position: relative;
         }
 
         .main-header h1 {
             font-size: 2.5rem;
             margin: 0;
+        }
+
+        .main-header .profile-link {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .mobile-header {
@@ -462,6 +470,12 @@
             color: #888;
         }
 
+        .empty-data-message {
+            text-align: center;
+            padding: 40px 0;
+            color: #888;
+        }
+
         /* --- Seção de Checkout --- */
         .checkout-form {
             max-width: 600px;
@@ -744,6 +758,9 @@
     <!-- Cabeçalho (Visível em telas maiores) -->
     <header class="main-header">
         <h1 id="site-name">Bolos Da Célia</h1>
+        <a href="admin.html" class="profile-link">
+            <i data-feather="user"></i>
+        </a>
     </header>
 
     <!-- Cabeçalho Fixo (Visível em telas menores) -->
@@ -777,6 +794,7 @@
                 </button>
                 <h2 id="build-cake-title">Monte seu Bolo</h2>
             </div>
+            <p id="build-cake-empty-message" class="empty-data-message" style="display:none"></p>
             <form id="build-cake-form" class="build-cake-form">
                 <!-- Passo 1: Tamanho -->
                 <div class="form-step">
@@ -961,52 +979,13 @@
                     text: '#4a2c2a'
                 },
                 whatsappNumber: '5511999999999', // <-- TROQUE PELO SEU NÚMERO DE WHATSAPP
-                products: [
-                    { id: 1, name: 'Bolo de Chocolate', category: 'Bolo Clássico', description: 'Massa fofinha de chocolate com cobertura cremosa.', price: 25.00, image: 'https://placehold.co/300x200/8B4513/FFFFFF?text=Bolo+de+Chocolate' },
-                    { id: 2, name: 'Bolo de Cenoura', category: 'Bolo Clássico', description: 'Com cobertura de brigadeiro, o clássico que todos amam.', price: 22.00, image: 'https://placehold.co/300x200/F4A460/FFFFFF?text=Bolo+de+Cenoura' },
-                    { id: 3, name: 'Bolo Ninho com Nutella', category: 'Bolo Recheado', description: 'Recheio de leite Ninho com o autêntico creme de avelã.', price: 55.00, image: 'https://placehold.co/300x200/DEB887/FFFFFF?text=Ninho+com+Nutella' },
-                    { id: 4, name: 'Bolo Red Velvet', category: 'Bolo Recheado', description: 'Massa aveludada vermelha com recheio de cream cheese.', price: 60.00, image: 'https://placehold.co/300x200/B22222/FFFFFF?text=Red+Velvet' },
-                    { id: 6, name: 'Coxinha de Frango', category: 'Salgados', description: 'A coxinha mais cremosa e crocante que você já provou.', price: 8.00, image: 'https://placehold.co/300x200/CD853F/FFFFFF?text=Coxinha' },
-                    { id: 7, name: 'Pastel de Carne', category: 'Salgados', description: 'Massa sequinha com recheio de carne moída bem temperada.', price: 7.00, image: 'https://placehold.co/300x200/D2B48C/FFFFFF?text=Pastel' },
-                    { id: 8, name: 'Bolinha de Queijo', category: 'Salgados', description: 'Puro queijo derretido em uma massa crocante.', price: 5.00, image: 'https://placehold.co/300x200/FFD700/FFFFFF?text=Bolinha+de+Queijo' },
-                ],
-                specialCakes: [
-                    { id: 101, name: 'Bolo Floral de Aniversário', description: 'Bolo elegante com flores de açúcar. Sabor e cores personalizáveis via WhatsApp.', price: 180.00, image: 'https://placehold.co/300x200/F8C8DC/4a2c2a?text=Bolo+Floral' },
-                    { id: 102, name: 'Bolo Rústico de Casamento', description: 'Bolo semi-naked com frutas vermelhas. Ideal para casamentos no campo.', price: 450.00, image: 'https://placehold.co/300x200/D2B48C/4a2c2a?text=Bolo+R%C3%BAstico' },
-                    { id: 103, name: 'Bolo Temático Infantil', description: 'Bolo com tema a sua escolha (heróis, princesas, etc). Consulte-nos!', price: 220.00, image: 'https://placehold.co/300x200/87CEEB/4a2c2a?text=Bolo+Infantil' },
-                ],
+                products: [],
+                specialCakes: [],
                 cakeBuilderOptions: {
-                    sizes: [
-                        { name: 'Escolha um tamanho', price: 0 },
-                        { name: '1kg (serve 10 pessoas)', price: 50.00 },
-                        { name: '1.5kg (serve 15 pessoas)', price: 75.00 },
-                        { name: '2kg (serve 20 pessoas)', price: 95.00 },
-                        { name: '3kg (serve 30 pessoas)', price: 140.00 },
-                    ],
-                    doughs: [
-                        { name: 'Escolha uma massa', price: 0 },
-                        { name: 'Massa de Chocolate', price: 0 },
-                        { name: 'Massa Branca (Baunilha)', price: 0 },
-                        { name: 'Massa Red Velvet', price: 10.00 },
-                        { name: 'Massa de Cenoura', price: 5.00 },
-                    ],
-                    fillings: [
-                        { name: 'Escolha um recheio', price: 0 },
-                        { name: 'Brigadeiro Tradicional', price: 10.00 },
-                        { name: 'Leite Ninho', price: 12.00 },
-                        { name: 'Doce de Leite', price: 10.00 },
-                        { name: 'Nutella', price: 15.00 },
-                        { name: 'Morango com Pedaços', price: 13.00 },
-                        { name: 'Prestígio', price: 12.00 },
-                    ],
-                    toppings: [
-                        { name: 'Escolha uma cobertura', price: 0 },
-                        { name: 'Chantininho', price: 15.00 },
-                        { name: 'Ganache de Chocolate Meio Amargo', price: 20.00 },
-                        { name: 'Naked Cake (sem cobertura)', price: 0 },
-                        { name: 'Cobertura de Açúcar (Glaçagem)', price: 18.00 },
-                        { name: 'Raspas de Chocolate', price: 15.00 },
-                    ]
+                    sizes: [],
+                    doughs: [],
+                    fillings: [],
+                    toppings: []
                 }
             },
             state: {
@@ -1055,6 +1034,7 @@
                 this.elements.cakeTopping = document.getElementById('cake-topping');
                 this.elements.customCakePrice = document.getElementById('custom-cake-price');
                 this.elements.addCustomCakeBtn = document.getElementById('add-custom-cake-to-cart-btn');
+                this.elements.buildCakeMessage = document.getElementById('build-cake-empty-message');
                 // Elementos do Catálogo Especial
                 this.elements.specialCatalogList = document.getElementById('special-catalog-list');
             },
@@ -1105,7 +1085,7 @@
                     }
 
                     if (productSource.length === 0) {
-                        container.innerHTML = '<p>Nenhum produto encontrado.</p>';
+                        container.innerHTML = '<p class="empty-data-message">Nenhum produto cadastrado. Acesse o perfil para adicionar.</p>';
                         return;
                     }
 
@@ -1182,8 +1162,19 @@
                 },
 
                 cakeBuilder() {
-                    const { sizes, doughs, toppings } = App.config.cakeBuilderOptions;
-                    const { cakeSize, cakeDough, cakeTopping } = App.elements;
+                    const opts = App.config.cakeBuilderOptions || {};
+                    const { sizes = [], doughs = [], toppings = [] } = opts;
+                    const { cakeSize, cakeDough, cakeTopping, buildCakeForm, buildCakeMessage } = App.elements;
+
+                    if (sizes.length === 0 || doughs.length === 0 || toppings.length === 0) {
+                        buildCakeForm.style.display = 'none';
+                        buildCakeMessage.textContent = 'Nenhuma opção cadastrada. Acesse o perfil para adicionar.';
+                        buildCakeMessage.style.display = 'block';
+                        return;
+                    }
+
+                    buildCakeMessage.style.display = 'none';
+                    buildCakeForm.style.display = 'block';
 
                     const populateSelect = (el, options) => {
                         el.innerHTML = options.map(opt => `<option value="${opt.price}">${opt.name}</option>`).join('');
@@ -1196,8 +1187,13 @@
 
                 cakeFillings(num) {
                     const { cakeFillingsContainer } = App.elements;
-                    const { fillings } = App.config.cakeBuilderOptions;
+                    const { fillings = [] } = App.config.cakeBuilderOptions || {};
                     cakeFillingsContainer.innerHTML = '';
+
+                    if (fillings.length === 0) {
+                        cakeFillingsContainer.innerHTML = '<p class="empty-data-message">Cadastre opções de recheio no perfil.</p>';
+                        return;
+                    }
 
                     for (let i = 1; i <= num; i++) {
                         const selectId = `cake-filling-${i}`;
