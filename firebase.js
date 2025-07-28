@@ -12,3 +12,14 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 const storage = firebase.storage();
+
+function loadConfig() {
+    return db.ref('config').once('value').then(s => s.val());
+}
+
+function saveConfig(cfg) {
+    return db.ref('config').set(cfg);
+}
+
+window.loadConfig = loadConfig;
+window.saveConfig = saveConfig;

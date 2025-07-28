@@ -743,12 +743,12 @@
 
     <!-- Cabeçalho (Visível em telas maiores) -->
     <header class="main-header">
-        <h1>Bolos Da Célia</h1>
+        <h1 id="site-name">Bolos Da Célia</h1>
     </header>
 
     <!-- Cabeçalho Fixo (Visível em telas menores) -->
     <header class="mobile-header">
-        <h1>Bolos Da Célia</h1>
+        <h1 id="site-name-mobile">Bolos Da Célia</h1>
         <a href="admin.html" style="position: absolute; right: 20px;">
             <i data-feather="user"></i>
         </a>
@@ -952,6 +952,14 @@
         const App = {
             // --- CONFIGURAÇÕES E ESTADO ---
             config: {
+                storeName: 'Bolos Da Célia',
+                colors: {
+                    primary: '#E6A4B4',
+                    secondary: '#F3D9E1',
+                    accent: '#784a4a',
+                    background: '#FAF6F0',
+                    text: '#4a2c2a'
+                },
                 whatsappNumber: '5511999999999', // <-- TROQUE PELO SEU NÚMERO DE WHATSAPP
                 products: [
                     { id: 1, name: 'Bolo de Chocolate', category: 'Bolo Clássico', description: 'Massa fofinha de chocolate com cobertura cremosa.', price: 25.00, image: 'https://placehold.co/300x200/8B4513/FFFFFF?text=Bolo+de+Chocolate' },
@@ -1013,6 +1021,8 @@
             init() {
                 this.mapDOMElements();
                 this.state.cart = JSON.parse(localStorage.getItem('confeitariaCart')) || [];
+                this.utils.applyTheme();
+                this.utils.updateStoreName();
                 this.bindEvents();
                 this.render.all();
                 this.utils.showSection('home-section');
@@ -1436,6 +1446,21 @@
                     }, 3000);
                 },
 
+                applyTheme() {
+                    const colors = App.config.colors || {};
+                    const root = document.documentElement;
+                    root.style.setProperty('--primary-color', colors.primary || '#E6A4B4');
+                    root.style.setProperty('--secondary-color', colors.secondary || '#F3D9E1');
+                    root.style.setProperty('--accent-color', colors.accent || '#784a4a');
+                    root.style.setProperty('--background-color', colors.background || '#FAF6F0');
+                    root.style.setProperty('--text-color', colors.text || '#4a2c2a');
+                },
+
+                updateStoreName() {
+                    const name = App.config.storeName || 'Confeitaria';
+                    document.querySelectorAll('#site-name, #site-name-mobile').forEach(el => el.textContent = name);
+                },
+
                 calculateCustomCakePrice() {
                     let totalPrice = 0;
                     let isComplete = true;
@@ -1504,7 +1529,12 @@
         };
 
         // Inicia a aplicação quando o DOM estiver pronto.
-        document.addEventListener('DOMContentLoaded', () => App.init());
+        document.addEventListener('DOMContentLoaded', () => {
+            loadConfig().then(cfg => {
+                if (cfg) App.config = cfg;
+                App.init();
+            }).catch(() => App.init());
+        });
 
     </script>
 </body>
