@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolos Da Célia</title>
+
+    <!-- Google Fonts: Poppins e Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* --- CSS INCORPORADO --- */
+
+        /* --- Variáveis de Cor e Configurações Globais --- */
+        :root {
+            --primary-color: #E6A4B4;
+            /* Rosa pastel */
+            --secondary-color: #F3D9E1;
+            /* Rosa bem claro */
+            --accent-color: #784a4a;
+            /* Marrom escuro para texto e detalhes */
+            --background-color: #FAF6F0;
+            /* Bege/Branco sujo */
+            --text-color: #4a2c2a;
+            --white-color: #FFFFFF;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --font-primary: 'Quicksand', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+            --header-height-mobile: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-top: var(--header-height-mobile);
+            /* Espaço para o cabeçalho fixo */
+            padding-bottom: 80px;
+            /* Espaço para o menu inferior */
+        }
+
+        /* --- Estilização da Barra de Rolagem (Opcional) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d68fa0;
+        }
+
+        /* --- Componentes Reutilizáveis --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-family: var(--font-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus-visible {
+            background-color: #d68fa0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(230, 164, 180, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--secondary-color);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            max-width: none;
+        }
+
+        h1,
+        h2 {
+            font-family: var(--font-secondary);
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* --- Cabeçalhos --- */
+        .main-header {
+            /* Apenas Desktop */
+            background-color: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+            display: none;
+            /* Escondido por padrão */
+        }
+
+        .main-header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .mobile-header {
+            /* Apenas Mobile */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height-mobile);
+            background-color: var(--white-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 600;
+        }
+
+        .mobile-header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* --- Seções de Página --- */
+        .page-section {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .section-header .back-btn {
+            position: absolute;
+            left: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--accent-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Seção de Produtos --- */
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-filters button {
+            background: var(--white-color);
+            border: 1px solid var(--secondary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-secondary);
+        }
+
+        .category-filters button.active,
+        .category-filters button:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            font-family: var(--font-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .product-info .description {
+            font-size: 0.9rem;
+            color: #666;
+            flex-grow: 1;
+            margin-bottom: 10px;
+        }
+
+        .product-info .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .product-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+
+        .quantity-selector button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 12px;
+            color: var(--primary-color);
+        }
+
+        .quantity-selector .quantity {
+            padding: 0 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* --- Seção Monte seu Bolo --- */
+        .build-cake-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .form-step {
+            margin-bottom: 25px;
+        }
+
+        .form-step label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            font-size: 1.1rem;
+        }
+
+        .form-step select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            background-color: #fff;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E6A4B4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        #cake-fillings-container .form-step {
+            margin-left: 20px;
+            border-left: 3px solid var(--secondary-color);
+            padding-left: 20px;
+        }
+
+        .price-display {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .price-display h3 {
+            font-family: var(--font-secondary);
+            margin-bottom: 10px;
+        }
+
+        .price-display #custom-cake-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* --- Seção Carrinho --- */
+        .cart-items {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .cart-item-info .item-description {
+            font-size: 0.8rem;
+            color: #777;
+            white-space: pre-wrap;
+        }
+
+        .cart-item-actions button {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: right;
+        }
+
+        .cart-summary p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        #cart-items .empty-cart-message {
+            text-align: center;
+            padding: 40px 0;
+            color: #888;
+        }
+
+        /* --- Seção de Checkout --- */
+        .checkout-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus-visible,
+        .form-group textarea:focus-visible {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 164, 180, 0.3);
+        }
+
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: var(--error-color);
+        }
+
+        .form-group.error label {
+            color: var(--error-color);
+        }
+
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        /* --- Navegação Inferior (Mobile) --- */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: var(--white-color);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 500;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #999;
+            flex-grow: 1;
+            padding: 5px 0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link i {
+            color: var(--accent-color);
+            /* Todos os ícones com a mesma cor */
+        }
+
+        .nav-link span {
+            color: #999;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link.active {
+            transform: translateY(-3px);
+        }
+
+        .nav-link.active span {
+            color: var(--primary-color);
+            /* Apenas o texto do link ativo muda de cor */
+        }
+
+        .nav-link i {
+            width: 28px;
+            height: 28px;
+            margin-bottom: 4px;
+        }
+
+        .nav-link .cart-count-badge {
+            position: absolute;
+            top: 2px;
+            right: calc(50% - 25px);
+            background-color: var(--error-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid var(--white-color);
+        }
+
+        /* --- Botão Flutuante do Carrinho --- */
+        #floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-radius: 50%;
+            border: none;
+            display: none;
+            /* Escondido por padrão */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 900;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #floating-cart-btn.visible {
+            display: flex;
+            /* Torna visível via JS */
+        }
+
+        #floating-cart-btn .cart-count-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--error-color);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 2px solid var(--white-color);
+        }
+
+        /* --- Toast / Notificação --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--accent-color);
+            color: var(--white-color);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.5s, toastOut 0.5s 2.5s;
+            opacity: 0;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--error-color);
+        }
+
+        @keyframes toastIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* --- Responsividade --- */
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+
+            .mobile-header {
+                display: none;
+            }
+
+            body {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            .main-header {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #floating-cart-btn {
+                display: none !important;
+                /* Garante que o flutuante nunca apareça em mobile */
+            }
+
+            h1,
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            #toast-container {
+                top: auto;
+                bottom: 80px;
+                /* Acima do menu de navegação */
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cabeçalho (Visível em telas maiores) -->
+    <header class="main-header">
+        <h1>Bolos Da Célia</h1>
+    </header>
+
+    <!-- Cabeçalho Fixo (Visível em telas menores) -->
+    <header class="mobile-header">
+        <h1>Bolos Da Célia</h1>
+        <a href="admin.html" style="position: absolute; right: 20px;">
+            <i data-feather="user"></i>
+        </a>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container">
+
+        <!-- Seção do Cardápio (Início) -->
+        <section id="home-section" class="page-section active" role="region" aria-labelledby="home-title">
+            <!-- Cardápio agora é a tela inicial -->
+            <h2 id="home-title">Nosso Cardápio</h2>
+            <div id="category-filters" class="category-filters" role="tablist" aria-label="Categorias de produtos">
+                <!-- Filtros de categoria serão gerados pelo JS -->
+            </div>
+            <div id="product-list" class="product-list">
+                <!-- Produtos serão inseridos aqui pelo JavaScript -->
+            </div>
+        </section>
+
+        <!-- Seção Monte seu Bolo -->
+        <section id="build-cake-section" class="page-section" role="region" aria-labelledby="build-cake-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="build-cake-title">Monte seu Bolo</h2>
+            </div>
+            <form id="build-cake-form" class="build-cake-form">
+                <!-- Passo 1: Tamanho -->
+                <div class="form-step">
+                    <label for="cake-size">1. Escolha o Tamanho (peso)</label>
+                    <select id="cake-size" name="size"></select>
+                </div>
+
+                <!-- Passo 2: Massa -->
+                <div class="form-step">
+                    <label for="cake-dough">2. Escolha a Massa</label>
+                    <select id="cake-dough" name="dough"></select>
+                </div>
+
+                <!-- Passo 3: Número de Recheios -->
+                <div class="form-step">
+                    <label for="cake-num-fillings">3. Escolha o número de recheios</label>
+                    <select id="cake-num-fillings" name="num_fillings">
+                        <option value="0">Sem recheio</option>
+                        <option value="1">1 Recheio</option>
+                        <option value="2">2 Recheios</option>
+                        <option value="3">3 Recheios</option>
+                    </select>
+                </div>
+
+                <!-- Container dinâmico para os recheios -->
+                <div id="cake-fillings-container"></div>
+
+                <!-- Passo 4: Cobertura -->
+                <div class="form-step">
+                    <label for="cake-topping">4. Escolha a Cobertura</label>
+                    <select id="cake-topping" name="topping"></select>
+                </div>
+
+                <!-- Display de Preço -->
+                <div class="price-display">
+                    <h3>Valor do Bolo</h3>
+                    <p id="custom-cake-price" aria-live="polite">R$ 0,00</p>
+                </div>
+
+                <button type="button" id="add-custom-cake-to-cart-btn" class="btn-primary btn-block"
+                    style="margin-top: 20px;" disabled>Adicionar Bolo ao Carrinho</button>
+            </form>
+        </section>
+
+        <!-- Seção Catálogo Especial -->
+        <section id="special-catalog-section" class="page-section" role="region"
+            aria-labelledby="special-catalog-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="special-catalog-title">Catálogo Especial</h2>
+            </div>
+            <div id="special-catalog-list" class="product-list">
+                <!-- Bolos especiais serão inseridos aqui -->
+            </div>
+        </section>
+
+        <!-- Seção do Carrinho (Meu Pedido) -->
+        <section id="cart-section" class="page-section" role="region" aria-labelledby="cart-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="home-section" aria-label="Voltar para o cardápio">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="cart-title">Seu Carrinho</h2>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <!-- Itens do carrinho serão inseridos aqui -->
+            </div>
+            <div class="cart-summary">
+                <p>Subtotal: <span id="cart-subtotal" aria-live="polite">R$ 0,00</span></p>
+                <button id="checkout-from-cart-btn" class="btn-primary btn-block">Finalizar Pedido</button>
+            </div>
+        </section>
+
+        <!-- Seção de Finalização do Pedido -->
+        <section id="checkout-section" class="page-section" role="region" aria-labelledby="checkout-title">
+            <div class="section-header">
+                <button class="back-btn" data-target="cart-section" aria-label="Voltar para o carrinho">
+                    <i data-feather="arrow-left"></i>
+                </button>
+                <h2 id="checkout-title">Finalizar Pedido</h2>
+            </div>
+            <form id="checkout-form" class="checkout-form" novalidate>
+                <div class="form-group">
+                    <label for="customer-name">Seu Nome</label>
+                    <input type="text" id="customer-name" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Entrega</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="delivery-method" value="Entrega" checked> Entrega
+                        </label>
+                        <label>
+                            <input type="radio" name="delivery-method" value="Retirada"> Retirada no Local
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="address-group">
+                    <label for="customer-address">Endereço de Entrega</label>
+                    <textarea id="customer-address" rows="3" required
+                        placeholder="Ex: Rua das Flores, 123, Bairro, Cidade"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pagamento</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="payment-method" value="PIX" checked> PIX
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="Cartão"> Cartão
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="Dinheiro"> Dinheiro
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">Enviar Pedido via WhatsApp</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Botão Flutuante do Carrinho (Apenas Desktop) -->
+    <button id="floating-cart-btn" aria-label="Abrir carrinho de compras">
+        <i data-feather="shopping-cart"></i>
+        <span class="cart-count-badge">0</span>
+    </button>
+
+    <!-- Menu de Navegação Fixo (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="#home-section" class="nav-link active" data-target="home-section" aria-label="Ver Cardápio">
+            <i data-feather="book-open"></i>
+            <span>Cardápio</span>
+        </a>
+        <a href="#build-cake-section" class="nav-link" data-target="build-cake-section" aria-label="Monte seu Bolo">
+            <i data-feather="cake"></i>
+            <span>Monte o Bolo</span>
+        </a>
+        <a href="#special-catalog-section" class="nav-link" data-target="special-catalog-section"
+            aria-label="Ver Catálogo Especial">
+            <i data-feather="gift"></i>
+            <span>Catálogo</span>
+        </a>
+        <a href="#cart-section" data-target="cart-section" class="nav-link" aria-label="Ver meu pedido">
+            <i data-feather="shopping-cart"></i>
+            <span class="cart-count-badge">0</span>
+            <span>Meu Pedido</span>
+        </a>
+    </nav>
+
+    <!-- Container para Notificações (Toast) -->
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="firebase.js"></script>
+
+    <script>
+        // --- JAVASCRIPT INCORPORADO ---
+
+        /**
+         * Módulo App para encapsular toda a lógica da aplicação,
+         * evitando poluir o escopo global e organizando o código.
+         */
+        const App = {
+            // --- CONFIGURAÇÕES E ESTADO ---
+            config: {
+                whatsappNumber: '5511999999999', // <-- TROQUE PELO SEU NÚMERO DE WHATSAPP
+                products: [
+                    { id: 1, name: 'Bolo de Chocolate', category: 'Bolo Clássico', description: 'Massa fofinha de chocolate com cobertura cremosa.', price: 25.00, image: 'https://placehold.co/300x200/8B4513/FFFFFF?text=Bolo+de+Chocolate' },
+                    { id: 2, name: 'Bolo de Cenoura', category: 'Bolo Clássico', description: 'Com cobertura de brigadeiro, o clássico que todos amam.', price: 22.00, image: 'https://placehold.co/300x200/F4A460/FFFFFF?text=Bolo+de+Cenoura' },
+                    { id: 3, name: 'Bolo Ninho com Nutella', category: 'Bolo Recheado', description: 'Recheio de leite Ninho com o autêntico creme de avelã.', price: 55.00, image: 'https://placehold.co/300x200/DEB887/FFFFFF?text=Ninho+com+Nutella' },
+                    { id: 4, name: 'Bolo Red Velvet', category: 'Bolo Recheado', description: 'Massa aveludada vermelha com recheio de cream cheese.', price: 60.00, image: 'https://placehold.co/300x200/B22222/FFFFFF?text=Red+Velvet' },
+                    { id: 6, name: 'Coxinha de Frango', category: 'Salgados', description: 'A coxinha mais cremosa e crocante que você já provou.', price: 8.00, image: 'https://placehold.co/300x200/CD853F/FFFFFF?text=Coxinha' },
+                    { id: 7, name: 'Pastel de Carne', category: 'Salgados', description: 'Massa sequinha com recheio de carne moída bem temperada.', price: 7.00, image: 'https://placehold.co/300x200/D2B48C/FFFFFF?text=Pastel' },
+                    { id: 8, name: 'Bolinha de Queijo', category: 'Salgados', description: 'Puro queijo derretido em uma massa crocante.', price: 5.00, image: 'https://placehold.co/300x200/FFD700/FFFFFF?text=Bolinha+de+Queijo' },
+                ],
+                specialCakes: [
+                    { id: 101, name: 'Bolo Floral de Aniversário', description: 'Bolo elegante com flores de açúcar. Sabor e cores personalizáveis via WhatsApp.', price: 180.00, image: 'https://placehold.co/300x200/F8C8DC/4a2c2a?text=Bolo+Floral' },
+                    { id: 102, name: 'Bolo Rústico de Casamento', description: 'Bolo semi-naked com frutas vermelhas. Ideal para casamentos no campo.', price: 450.00, image: 'https://placehold.co/300x200/D2B48C/4a2c2a?text=Bolo+R%C3%BAstico' },
+                    { id: 103, name: 'Bolo Temático Infantil', description: 'Bolo com tema a sua escolha (heróis, princesas, etc). Consulte-nos!', price: 220.00, image: 'https://placehold.co/300x200/87CEEB/4a2c2a?text=Bolo+Infantil' },
+                ],
+                cakeBuilderOptions: {
+                    sizes: [
+                        { name: 'Escolha um tamanho', price: 0 },
+                        { name: '1kg (serve 10 pessoas)', price: 50.00 },
+                        { name: '1.5kg (serve 15 pessoas)', price: 75.00 },
+                        { name: '2kg (serve 20 pessoas)', price: 95.00 },
+                        { name: '3kg (serve 30 pessoas)', price: 140.00 },
+                    ],
+                    doughs: [
+                        { name: 'Escolha uma massa', price: 0 },
+                        { name: 'Massa de Chocolate', price: 0 },
+                        { name: 'Massa Branca (Baunilha)', price: 0 },
+                        { name: 'Massa Red Velvet', price: 10.00 },
+                        { name: 'Massa de Cenoura', price: 5.00 },
+                    ],
+                    fillings: [
+                        { name: 'Escolha um recheio', price: 0 },
+                        { name: 'Brigadeiro Tradicional', price: 10.00 },
+                        { name: 'Leite Ninho', price: 12.00 },
+                        { name: 'Doce de Leite', price: 10.00 },
+                        { name: 'Nutella', price: 15.00 },
+                        { name: 'Morango com Pedaços', price: 13.00 },
+                        { name: 'Prestígio', price: 12.00 },
+                    ],
+                    toppings: [
+                        { name: 'Escolha uma cobertura', price: 0 },
+                        { name: 'Chantininho', price: 15.00 },
+                        { name: 'Ganache de Chocolate Meio Amargo', price: 20.00 },
+                        { name: 'Naked Cake (sem cobertura)', price: 0 },
+                        { name: 'Cobertura de Açúcar (Glaçagem)', price: 18.00 },
+                        { name: 'Raspas de Chocolate', price: 15.00 },
+                    ]
+                }
+            },
+            state: {
+                cart: [],
+                activeCategory: 'all',
+            },
+            elements: {},
+
+            /**
+             * Método de inicialização. É o ponto de partida da aplicação.
+             */
+            init() {
+                this.mapDOMElements();
+                this.state.cart = JSON.parse(localStorage.getItem('confeitariaCart')) || [];
+                this.bindEvents();
+                this.render.all();
+                this.utils.showSection('home-section');
+                feather.replace();
+            },
+
+            /**
+             * Mapeia todos os elementos do DOM para o objeto `elements`.
+             */
+            mapDOMElements() {
+                this.elements.productList = document.getElementById('product-list');
+                this.elements.categoryFilters = document.getElementById('category-filters');
+                this.elements.cartItemsContainer = document.getElementById('cart-items');
+                this.elements.cartSubtotalEl = document.getElementById('cart-subtotal');
+                this.elements.checkoutForm = document.getElementById('checkout-form');
+                this.elements.navLinks = document.querySelectorAll('.nav-link, .btn-primary[data-target], .back-btn, .btn-secondary[data-target]');
+                this.elements.pageSections = document.querySelectorAll('.page-section');
+                this.elements.deliveryMethodRadios = document.querySelectorAll('input[name="delivery-method"]');
+                this.elements.addressGroup = document.getElementById('address-group');
+                this.elements.checkoutFromCartBtn = document.getElementById('checkout-from-cart-btn');
+                this.elements.toastContainer = document.getElementById('toast-container');
+                this.elements.floatingCartBtn = document.getElementById('floating-cart-btn');
+                this.elements.cartBadges = document.querySelectorAll('.cart-count-badge');
+                // Elementos do "Monte seu Bolo"
+                this.elements.buildCakeForm = document.getElementById('build-cake-form');
+                this.elements.cakeSize = document.getElementById('cake-size');
+                this.elements.cakeDough = document.getElementById('cake-dough');
+                this.elements.cakeNumFillings = document.getElementById('cake-num-fillings');
+                this.elements.cakeFillingsContainer = document.getElementById('cake-fillings-container');
+                this.elements.cakeTopping = document.getElementById('cake-topping');
+                this.elements.customCakePrice = document.getElementById('custom-cake-price');
+                this.elements.addCustomCakeBtn = document.getElementById('add-custom-cake-to-cart-btn');
+                // Elementos do Catálogo Especial
+                this.elements.specialCatalogList = document.getElementById('special-catalog-list');
+            },
+
+            /**
+             * Centraliza a configuração de todos os listeners de eventos.
+             */
+            bindEvents() {
+                this.elements.productList.addEventListener('click', this.handlers.handleProductInteraction.bind(this));
+                this.elements.specialCatalogList.addEventListener('click', this.handlers.handleProductInteraction.bind(this));
+                this.elements.categoryFilters.addEventListener('click', this.handlers.handleCategoryFilter.bind(this));
+                this.elements.cartItemsContainer.addEventListener('click', this.handlers.handleCartItemInteraction.bind(this));
+                this.elements.checkoutFromCartBtn.addEventListener('click', this.handlers.handleCheckoutFromCart.bind(this));
+                this.elements.checkoutForm.addEventListener('submit', this.handlers.handleFormSubmit.bind(this));
+                this.elements.floatingCartBtn.addEventListener('click', () => this.utils.showSection('cart-section'));
+
+                this.elements.navLinks.forEach(link => {
+                    link.addEventListener('click', this.handlers.handleNavigation.bind(this));
+                });
+
+                this.elements.deliveryMethodRadios.forEach(radio => {
+                    radio.addEventListener('change', this.handlers.handleDeliveryMethodChange.bind(this));
+                });
+
+                // Listeners do "Monte seu Bolo"
+                this.elements.buildCakeForm.addEventListener('change', this.handlers.handleCakeBuilderChange.bind(this));
+                this.elements.addCustomCakeBtn.addEventListener('click', this.handlers.handleAddCustomCake.bind(this));
+            },
+
+            // --- MÉTODOS DE RENDERIZAÇÃO ---
+            render: {
+                all() {
+                    this.categoryFilters();
+                    this.products();
+                    this.specialCatalog();
+                    this.cakeBuilder();
+                    App.update.cart();
+                },
+
+                products(products = App.config.products, container = App.elements.productList) {
+                    container.innerHTML = '';
+
+                    let productSource = products;
+                    if (container === App.elements.productList) {
+                        productSource = App.state.activeCategory === 'all'
+                            ? App.config.products
+                            : App.config.products.filter(p => p.category === App.state.activeCategory);
+                    }
+
+                    if (productSource.length === 0) {
+                        container.innerHTML = '<p>Nenhum produto encontrado.</p>';
+                        return;
+                    }
+
+                    productSource.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+                        productCard.dataset.id = product.id;
+                        productCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/300x200/ccc/4a2c2a?text=Erro!';">
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p class="description">${product.description}</p>
+                            <p class="price">R$ ${product.price.toFixed(2).replace('.', ',')}</p>
+                            <div class="product-controls">
+                                <div class="quantity-selector">
+                                    <button class="quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="quantity-btn" data-action="increase" aria-label="Aumentar quantidade">+</button>
+                                </div>
+                                <button class="btn-primary add-to-cart-btn">Adicionar</button>
+                            </div>
+                        </div>
+                    `;
+                        container.appendChild(productCard);
+                    });
+                },
+
+                specialCatalog() {
+                    this.products(App.config.specialCakes, App.elements.specialCatalogList);
+                },
+
+                categoryFilters() {
+                    const categories = ['all', ...new Set(App.config.products.map(p => p.category))];
+                    App.elements.categoryFilters.innerHTML = '';
+                    categories.forEach(category => {
+                        const button = document.createElement('button');
+                        button.textContent = category === 'all' ? 'Todos' : category;
+                        button.dataset.category = category;
+                        button.setAttribute('role', 'tab');
+                        if (category === App.state.activeCategory) {
+                            button.classList.add('active');
+                            button.setAttribute('aria-selected', 'true');
+                        }
+                        App.elements.categoryFilters.appendChild(button);
+                    });
+                },
+
+                cart() {
+                    const { cartItemsContainer, checkoutFromCartBtn } = App.elements;
+                    cartItemsContainer.innerHTML = '';
+                    if (App.state.cart.length === 0) {
+                        cartItemsContainer.innerHTML = '<p class="empty-cart-message">Seu carrinho está vazio.</p>';
+                        checkoutFromCartBtn.style.display = 'none';
+                    } else {
+                        checkoutFromCartBtn.style.display = 'block';
+                        App.state.cart.forEach(item => {
+                            const cartItem = document.createElement('div');
+                            cartItem.className = 'cart-item';
+                            const descriptionHTML = item.isCustom ? `<p class="item-description">${item.description}</p>` : '';
+                            cartItem.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                                <p>Qtd: ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                                ${descriptionHTML}
+                            </div>
+                            <div class="cart-item-actions">
+                                <button class="remove-from-cart-btn" data-id="${item.id}">Remover</button>
+                            </div>
+                        `;
+                            cartItemsContainer.appendChild(cartItem);
+                        });
+                    }
+                },
+
+                cakeBuilder() {
+                    const { sizes, doughs, toppings } = App.config.cakeBuilderOptions;
+                    const { cakeSize, cakeDough, cakeTopping } = App.elements;
+
+                    const populateSelect = (el, options) => {
+                        el.innerHTML = options.map(opt => `<option value="${opt.price}">${opt.name}</option>`).join('');
+                    };
+
+                    populateSelect(cakeSize, sizes);
+                    populateSelect(cakeDough, doughs);
+                    populateSelect(cakeTopping, toppings);
+                },
+
+                cakeFillings(num) {
+                    const { cakeFillingsContainer } = App.elements;
+                    const { fillings } = App.config.cakeBuilderOptions;
+                    cakeFillingsContainer.innerHTML = '';
+
+                    for (let i = 1; i <= num; i++) {
+                        const selectId = `cake-filling-${i}`;
+                        const optionsHTML = fillings.map(opt => `<option value="${opt.price}">${opt.name}</option>`).join('');
+                        const stepHTML = `
+                        <div class="form-step">
+                            <label for="${selectId}">Recheio ${i}</label>
+                            <select id="${selectId}" name="filling_${i}">${optionsHTML}</select>
+                        </div>
+                    `;
+                        cakeFillingsContainer.innerHTML += stepHTML;
+                    }
+                }
+            },
+
+            // --- MÉTODOS DE ATUALIZAÇÃO DE ESTADO ---
+            update: {
+                addToCart(productId, quantity) {
+                    const existingItem = App.state.cart.find(item => item.id === productId && !item.isCustom);
+                    if (existingItem) {
+                        existingItem.quantity += quantity;
+                    } else {
+                        const allProducts = [...App.config.products, ...App.config.specialCakes];
+                        const product = allProducts.find(p => p.id === productId);
+                        if (product) {
+                            App.state.cart.push({ ...product, quantity });
+                        }
+                    }
+                    this.cart();
+                },
+
+                removeFromCart(productId) {
+                    App.state.cart = App.state.cart.filter(item => item.id !== productId);
+                    this.cart();
+                },
+
+                cart() {
+                    localStorage.setItem('confeitariaCart', JSON.stringify(App.state.cart));
+                    App.render.cart();
+
+                    const subtotal = App.state.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                    App.elements.cartSubtotalEl.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+
+                    const totalItems = App.state.cart.reduce((total, item) => total + item.quantity, 0);
+                    App.elements.cartBadges.forEach(badge => {
+                        badge.textContent = totalItems;
+                        badge.style.display = totalItems > 0 ? 'flex' : 'none';
+                    });
+                },
+            },
+
+            // --- HANDLERS DE EVENTOS ---
+            handlers: {
+                handleProductInteraction(e) {
+                    const target = e.target;
+                    const productCard = target.closest('.product-card');
+                    if (!productCard) return;
+
+                    const productId = parseInt(productCard.dataset.id);
+                    const quantityEl = productCard.querySelector('.quantity');
+                    let quantity = parseInt(quantityEl.textContent);
+
+                    if (target.matches('.quantity-btn')) {
+                        const action = target.dataset.action;
+                        if (action === 'increase') quantity++;
+                        else if (action === 'decrease' && quantity > 1) quantity--;
+                        quantityEl.textContent = quantity;
+                    }
+
+                    if (target.matches('.add-to-cart-btn')) {
+                        App.update.addToCart(productId, quantity);
+                        App.utils.showToast('Item adicionado ao carrinho!', 'success');
+                        quantityEl.textContent = '1';
+                    }
+                },
+
+                handleCategoryFilter(e) {
+                    if (e.target.tagName === 'BUTTON') {
+                        App.state.activeCategory = e.target.dataset.category;
+                        App.render.products();
+                    }
+                },
+
+                handleCartItemInteraction(e) {
+                    if (e.target.matches('.remove-from-cart-btn')) {
+                        const productId = e.target.dataset.id;
+                        const idToRemove = isNaN(parseInt(productId)) ? productId : parseInt(productId);
+                        App.update.removeFromCart(idToRemove);
+                        App.utils.showToast('Item removido do carrinho.');
+                    }
+                },
+
+                handleNavigation(e) {
+                    e.preventDefault();
+                    const targetId = e.currentTarget.dataset.target;
+                    if (targetId) {
+                        App.utils.showSection(targetId);
+                    }
+                },
+
+                handleCheckoutFromCart() {
+                    App.utils.showSection('checkout-section');
+                },
+
+                handleDeliveryMethodChange(e) {
+                    const isDelivery = e.target.value === 'Entrega';
+                    App.elements.addressGroup.style.display = isDelivery ? 'block' : 'none';
+                    document.getElementById('customer-address').required = isDelivery;
+                },
+
+                handleFormSubmit(e) {
+                    e.preventDefault();
+                    if (!App.utils.validateForm()) return;
+
+                    if (App.state.cart.length === 0) {
+                        App.utils.showToast('Seu carrinho está vazio!', 'error');
+                        return;
+                    }
+
+                    const message = App.utils.formatWhatsAppMessage();
+                    const whatsappUrl = `https://wa.me/${App.config.whatsappNumber}?text=${message}`;
+
+                    window.open(whatsappUrl, '_blank');
+
+                    App.state.cart = [];
+                    App.update.cart();
+                    App.elements.checkoutForm.reset();
+                    App.utils.showSection('home-section');
+                    App.utils.showToast('Pedido enviado! Redirecionando...', 'success');
+                },
+
+                handleCakeBuilderChange(e) {
+                    if (e.target.id === 'cake-num-fillings') {
+                        App.render.cakeFillings(parseInt(e.target.value));
+                    }
+                    App.utils.calculateCustomCakePrice();
+                },
+
+                handleAddCustomCake() {
+                    const { price, description, name } = App.utils.getCustomCakeDetails();
+
+                    const customCake = {
+                        id: `custom-${Date.now()}`,
+                        name: name,
+                        price: price,
+                        description: description,
+                        quantity: 1,
+                        isCustom: true,
+                        image: 'https://placehold.co/300x200/E6A4B4/4a2c2a?text=Bolo+Montado'
+                    };
+
+                    App.state.cart.push(customCake);
+                    App.update.cart();
+                    App.utils.showToast('Bolo personalizado adicionado!', 'success');
+                    App.elements.buildCakeForm.reset();
+                    App.render.cakeFillings(0);
+                    App.utils.calculateCustomCakePrice();
+                    App.utils.showSection('home-section');
+                }
+            },
+
+            // --- FUNÇÕES UTILITÁRIAS ---
+            utils: {
+                showSection(targetId) {
+                    App.elements.pageSections.forEach(section => {
+                        section.classList.toggle('active', section.id === targetId);
+                    });
+                    App.elements.navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.dataset.target === targetId) {
+                            link.classList.add('active');
+                        }
+                    });
+                    if (targetId === 'home-section') {
+                        document.querySelector('.nav-link[data-target="home-section"]').classList.add('active');
+                    }
+
+                    const showFloatingCart = ['home-section', 'build-cake-section', 'special-catalog-section'].includes(targetId);
+                    App.elements.floatingCartBtn.classList.toggle('visible', showFloatingCart);
+
+                    if (targetId === 'home-section') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        window.scrollTo(0, 0);
+                    }
+                },
+
+                validateForm() {
+                    let isValid = true;
+                    App.elements.checkoutForm.querySelectorAll('[required]').forEach(input => {
+                        const formGroup = input.closest('.form-group');
+                        if (!input.value.trim()) {
+                            isValid = false;
+                            formGroup.classList.add('error');
+                        } else {
+                            formGroup.classList.remove('error');
+                        }
+                    });
+                    if (!isValid) {
+                        this.showToast('Por favor, preencha os campos obrigatórios.', 'error');
+                    }
+                    return isValid;
+                },
+
+                formatWhatsAppMessage() {
+                    const customerName = document.getElementById('customer-name').value;
+                    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked').value;
+                    const address = document.getElementById('customer-address').value;
+                    const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+                    let message = `*Olá! Gostaria de fazer um novo pedido.*\n\n`;
+                    message += `*Cliente:* ${customerName}\n\n`;
+                    message += `*Itens do Pedido:*\n`;
+
+                    App.state.cart.forEach(item => {
+                        message += `- ${item.quantity}x ${item.name}`;
+                        if (item.isCustom) {
+                            message += `\n  ${item.description.replace(/\n/g, '\n  ')}`;
+                        }
+                        message += ` (R$ ${item.price.toFixed(2).replace('.', ',')})\n`;
+                    });
+
+                    const subtotal = App.state.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                    message += `\n*Subtotal:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
+
+                    message += `*Forma de Entrega:* ${deliveryMethod}\n`;
+                    if (deliveryMethod === 'Entrega') {
+                        message += `*Endereço:* ${address}\n`;
+                    }
+
+                    message += `*Forma de Pagamento:* ${paymentMethod}\n\n`;
+                    message += `Aguardando confirmação. Obrigado!`;
+
+                    return encodeURIComponent(message);
+                },
+
+                showToast(message, type = '') {
+                    const toast = document.createElement('div');
+                    toast.className = `toast ${type}`;
+                    toast.innerHTML = `<i data-feather="${type === 'success' ? 'check-circle' : 'info'}"></i> ${message}`;
+                    App.elements.toastContainer.appendChild(toast);
+                    feather.replace();
+
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                },
+
+                calculateCustomCakePrice() {
+                    let totalPrice = 0;
+                    let isComplete = true;
+
+                    const sizePrice = parseFloat(App.elements.cakeSize.value);
+                    if (sizePrice === 0) isComplete = false;
+                    totalPrice += sizePrice;
+
+                    const doughPrice = parseFloat(App.elements.cakeDough.value);
+                    if (App.elements.cakeDough.selectedIndex === 0) isComplete = false;
+                    totalPrice += doughPrice;
+
+                    const toppingPrice = parseFloat(App.elements.cakeTopping.value);
+                    if (App.elements.cakeTopping.selectedIndex === 0) isComplete = false;
+                    totalPrice += toppingPrice;
+
+                    const fillingSelects = App.elements.cakeFillingsContainer.querySelectorAll('select');
+                    fillingSelects.forEach(select => {
+                        const fillingPrice = parseFloat(select.value);
+                        if (fillingPrice === 0) isComplete = false;
+                        totalPrice += fillingPrice;
+                    });
+
+                    const numFillings = parseInt(App.elements.cakeNumFillings.value);
+                    if (numFillings > 0 && fillingSelects.length !== numFillings) {
+                        isComplete = false;
+                    }
+
+                    App.elements.customCakePrice.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+                    App.elements.addCustomCakeBtn.disabled = !isComplete;
+
+                    return totalPrice;
+                },
+
+                getCustomCakeDetails() {
+                    const price = this.calculateCustomCakePrice();
+
+                    const sizeEl = App.elements.cakeSize;
+                    const doughEl = App.elements.cakeDough;
+                    const toppingEl = App.elements.cakeTopping;
+
+                    const sizeText = sizeEl.options[sizeEl.selectedIndex].text;
+                    const doughText = doughEl.options[doughEl.selectedIndex].text;
+                    const toppingText = toppingEl.options[toppingEl.selectedIndex].text;
+
+                    let description = `Tamanho: ${sizeText}\nMassa: ${doughText}\n`;
+
+                    const fillingSelects = App.elements.cakeFillingsContainer.querySelectorAll('select');
+                    if (fillingSelects.length > 0) {
+                        description += 'Recheio(s):\n';
+                        fillingSelects.forEach((select, index) => {
+                            const fillingText = select.options[select.selectedIndex].text;
+                            description += ` - ${fillingText}\n`;
+                        });
+                    }
+
+                    description += `Cobertura: ${toppingText}`;
+
+                    return {
+                        price,
+                        description,
+                        name: 'Bolo Personalizado'
+                    };
+                }
+            }
+        };
+
+        // Inicia a aplicação quando o DOM estiver pronto.
+        document.addEventListener('DOMContentLoaded', () => App.init());
+
+    </script>
+</body>
+
+</html>
