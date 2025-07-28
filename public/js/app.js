@@ -324,9 +324,9 @@
                 },
 
                 handleNavigation(e) {
-                    e.preventDefault();
                     const targetId = e.currentTarget.dataset.target;
                     if (targetId) {
+                        e.preventDefault();
                         App.utils.showSection(targetId);
                     }
                 },
