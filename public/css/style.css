@@ -255,7 +255,7 @@
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
@@ -263,6 +263,8 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
         }
 
         .product-info {
@@ -270,6 +272,7 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(to bottom, var(--white-color), var(--secondary-color));
         }
 
         .product-info h3 {
@@ -637,6 +640,30 @@
             border: 2px solid var(--white-color);
         }
 
+        /* --- Botão Flutuante do Admin --- */
+        #floating-admin-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            color: var(--white-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 900;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        #floating-admin-btn:hover {
+            transform: translateY(-3px);
+        }
+
         /* --- Toast / Notificação --- */
         #toast-container {
             position: fixed;
@@ -715,6 +742,10 @@
             #floating-cart-btn {
                 display: none !important;
                 /* Garante que o flutuante nunca apareça em mobile */
+            }
+
+            #floating-admin-btn {
+                display: none !important;
             }
 
             h1,
